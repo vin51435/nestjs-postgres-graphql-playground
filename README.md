@@ -51,15 +51,16 @@ docker compose up -d
 npm install
 ```
 
-### 3. Seed Database
+### 3. Start NestJS Application (Auto-starts Docker Container)
+```bash
+npm run start:dev
+```
+*`npm run start`, `npm run start:dev`, and `npm run start:debug` automatically execute `docker compose up -d` beforehand so you never have to remember to start Docker manually!*
+
+### 4. Seed Database
 Populate the database with rich sample users, posts, categories, tags, and threaded comments:
 ```bash
 npm run seed
-```
-
-### 4. Start NestJS Application
-```bash
-npm run start:dev
 ```
 
 Open your browser at **[http://localhost:3000/graphql](http://localhost:3000/graphql)** to launch Apollo Playground.
