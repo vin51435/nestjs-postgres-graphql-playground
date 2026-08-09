@@ -34,7 +34,9 @@ export class CommentsService {
     if (createCommentInput.parentId) {
       const parent = await this.commentRepository.findOneBy({ id: createCommentInput.parentId });
       if (!parent) {
-        throw new NotFoundException(`Parent comment with ID ${createCommentInput.parentId} not found`);
+        throw new NotFoundException(
+          `Parent comment with ID ${createCommentInput.parentId} not found`,
+        );
       }
     }
 

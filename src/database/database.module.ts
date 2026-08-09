@@ -1,4 +1,4 @@
-import { Module, OnModuleInit, Logger } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Client } from 'pg';
@@ -28,10 +28,7 @@ async function ensureDatabaseExists(configService: ConfigService) {
 
   try {
     await client.connect();
-    const res = await client.query(
-      `SELECT 1 FROM pg_database WHERE datname = $1`,
-      [targetDb],
-    );
+    const res = await client.query(`SELECT 1 FROM pg_database WHERE datname = $1`, [targetDb]);
     if (res.rowCount === 0) {
       logger.log(`Database '${targetDb}' does not exist. Creating automatically...`);
       await client.query(`CREATE DATABASE "${targetDb}"`);

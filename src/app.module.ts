@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { AppController } from './app.controller';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './modules/users/users.module';
 import { PostsModule } from './modules/posts/posts.module';
@@ -39,5 +40,6 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
     CommentsModule,
     AnalyticsModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

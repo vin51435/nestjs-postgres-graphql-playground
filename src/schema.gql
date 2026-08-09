@@ -1,0 +1,269 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Category classification for posts"""
+type Category {
+  description: String
+  id: ID!
+  name: String!
+  posts: [Post!]
+}
+
+"""Comment on a post supporting nested thread replies"""
+type Comment {
+  author: User!
+  authorId: String!
+  createdAt: DateTime!
+  id: ID!
+  parentComment: Comment
+  parentId: String
+  post: Post!
+  postId: String!
+  replies: [Comment!]
+  text: String!
+}
+
+input CreateCommentInput {
+  authorId: ID!
+
+  """Parent comment ID for threaded replies"""
+  parentId: ID
+  postId: ID!
+  text: String!
+}
+
+input CreatePostInput {
+  authorId: ID!
+
+  """Category IDs to attach to the post"""
+  categoryIds: [String!]
+  content: String!
+  published: Boolean = false
+
+  """Tag names to assign or auto-create"""
+  tagNames: [String!]
+  title: String!
+}
+
+input CreateProfileInput {
+  avatarUrl: String
+  githubUrl: String
+  website: String
+}
+
+input CreateUserInput {
+  bio: String
+  email: String!
+  name: String!
+  profile: CreateProfileInput
+  role: UserRole = READER
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  """Post a comment or reply to existing comment"""
+  createComment(input: CreateCommentInput!): Comment!
+
+  """Create a new post"""
+  createPost(input: CreatePostInput!): Post!
+
+  """
+  Create a new user with optional nested profile in a database transaction
+  """
+  createUser(input: CreateUserInput!): User!
+
+  """Delete a comment and its nested replies"""
+  deleteComment(id: ID!): Boolean!
+
+  """Delete a post"""
+  deletePost(id: ID!): Boolean!
+
+  """Delete a user and cascade delete associated records"""
+  deleteUser(id: ID!): Boolean!
+
+  """Increment post views counter"""
+  incrementPostViews(id: ID!): Post!
+
+  """Update an existing post"""
+  updatePost(input: UpdatePostInput!): Post!
+
+  """Update existing user profile"""
+  updateUser(input: UpdateUserInput!): User!
+}
+
+type PaginatedPosts {
+  hasMore: Boolean!
+  items: [Post!]!
+  skip: Int!
+  take: Int!
+  totalCount: Int!
+}
+
+input PaginationInput {
+  skip: Int! = 0
+  take: Int! = 10
+}
+
+"""Blog post content model"""
+type Post {
+  author: User!
+  authorId: String!
+  categories: [Category!]
+
+  """Total count of comments for this post using DataLoader batching"""
+  commentCount: Int!
+  comments: [Comment!]
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+
+  """
+  Unoptimized Author field resolver (Triggers 1 SQL query per post - Demonstrates N+1 Problem)
+  """
+  naiveAuthor: User!
+  published: Boolean!
+  slug: String!
+  tags: [Tag!]
+  title: String!
+  updatedAt: DateTime!
+  views: Int!
+}
+
+input PostFilterInput {
+  authorId: String
+  categoryId: String
+  published: Boolean
+
+  """Search term matching title or content"""
+  search: String
+  tagName: String
+}
+
+type PostgresTableStats {
+  rowCount: Int!
+  tableName: String!
+  totalSize: String!
+}
+
+"""User extended metadata profile (1-to-1 relationship)"""
+type Profile {
+  avatarUrl: String
+  createdAt: DateTime!
+  githubUrl: String
+  id: ID!
+  updatedAt: DateTime!
+  user: User!
+  userId: String!
+  website: String
+}
+
+type Query {
+  """Get top-level comments and nested replies for a post"""
+  commentsByPost(postId: ID!): [Comment!]!
+
+  """
+  Run EXPLAIN ANALYZE on custom SQL string to inspect query execution plan & index usage
+  """
+  explainPostgresQuery(sqlQuery: String! = "SELECT * FROM posts WHERE published = true ORDER BY \"createdAt\" DESC"): QueryPlanResult!
+
+  """Get post by ID"""
+  post(id: ID!): Post!
+
+  """
+  Inspect PostgreSQL table stats, row counts, and disk usage from pg_stat_user_tables
+  """
+  postgresTableStats: [PostgresTableStats!]!
+
+  """Get paginated list of posts with filtering and search capabilities"""
+  posts(filter: PostFilterInput, pagination: PaginationInput): PaginatedPosts!
+
+  """
+  Executes complex raw PostgreSQL SELECT query with LEFT JOINs, GROUP BY, and aggregations
+  """
+  rawSqlUserAnalytics: [UserActivityStats!]!
+
+  """Get a specific user by UUID"""
+  user(id: ID!): User!
+
+  """Get all registered users"""
+  users: [User!]!
+}
+
+type QueryPlanResult {
+  executionPlanJson: String!
+  query: String!
+}
+
+type Subscription {
+  """Real-time subscription triggered whenever a comment is created"""
+  commentAdded: Comment!
+
+  """Real-time WebSockets subscription triggered when a new post is created"""
+  postCreated: Post!
+}
+
+"""Tag label for post organization"""
+type Tag {
+  id: ID!
+  name: String!
+  posts: [Post!]
+}
+
+input UpdatePostInput {
+  authorId: ID
+
+  """Category IDs to attach to the post"""
+  categoryIds: [String!]
+  content: String
+  id: ID!
+  published: Boolean = false
+
+  """Tag names to assign or auto-create"""
+  tagNames: [String!]
+  title: String
+}
+
+input UpdateUserInput {
+  bio: String
+  email: String
+  id: ID!
+  name: String
+  profile: CreateProfileInput
+  role: UserRole = READER
+}
+
+"""User account representation"""
+type User {
+  bio: String
+  comments: [Comment!]
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  name: String!
+  posts: [Post!]
+  profile: Profile
+  role: UserRole!
+  updatedAt: DateTime!
+}
+
+type UserActivityStats {
+  publishedPosts: Int!
+  totalComments: Int!
+  totalPosts: Int!
+  totalViews: Int!
+  userEmail: String!
+  userId: String!
+  userName: String!
+}
+
+"""Role assigned to the user defining their platform permissions"""
+enum UserRole {
+  ADMIN
+  AUTHOR
+  READER
+}

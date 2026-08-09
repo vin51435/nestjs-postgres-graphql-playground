@@ -27,10 +27,7 @@ async function ensureDatabaseExists() {
 
   try {
     await client.connect();
-    const res = await client.query(
-      `SELECT 1 FROM pg_database WHERE datname = $1`,
-      [targetDb],
-    );
+    const res = await client.query(`SELECT 1 FROM pg_database WHERE datname = $1`, [targetDb]);
     if (res.rowCount === 0) {
       console.log(`📦 Database '${targetDb}' does not exist. Auto-creating...`);
       await client.query(`CREATE DATABASE "${targetDb}"`);
@@ -144,7 +141,7 @@ async function runSeed() {
     tags: [tagDataLoader, tagPerformance, tagArchitecture],
   });
 
-  const post3 = await dataSource.getRepository(Post).save({
+  await dataSource.getRepository(Post).save({
     title: 'Building Real-time NestJS Subscriptions with WebSockets',
     slug: 'published-real-time-nestjs-subscriptions-with-websockets-1003',
     content:

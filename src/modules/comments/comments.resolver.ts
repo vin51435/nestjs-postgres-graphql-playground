@@ -15,25 +15,19 @@ export class CommentsResolver {
     name: 'commentsByPost',
     description: 'Get top-level comments and nested replies for a post',
   })
-  async getCommentsByPost(
-    @Args('postId', { type: () => ID }) postId: string,
-  ): Promise<Comment[]> {
+  async getCommentsByPost(@Args('postId', { type: () => ID }) postId: string): Promise<Comment[]> {
     return this.commentsService.findByPost(postId);
   }
 
   @Mutation(() => Comment, { description: 'Post a comment or reply to existing comment' })
-  async createComment(
-    @Args('input') createCommentInput: CreateCommentInput,
-  ): Promise<Comment> {
+  async createComment(@Args('input') createCommentInput: CreateCommentInput): Promise<Comment> {
     const comment = await this.commentsService.create(createCommentInput);
     pubSub.publish(COMMENT_ADDED_EVENT, { commentAdded: comment });
     return comment;
   }
 
   @Mutation(() => Boolean, { description: 'Delete a comment and its nested replies' })
-  async deleteComment(
-    @Args('id', { type: () => ID }) id: string,
-  ): Promise<boolean> {
+  async deleteComment(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
     return this.commentsService.remove(id);
   }
 

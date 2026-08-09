@@ -23,7 +23,9 @@ async function bootstrap() {
   logger.log(`===================================================================`);
   logger.log(`🚀 NestJS PostgreSQL & GraphQL Playground running at: http://localhost:${port}`);
   logger.log(`🎯 Interactive GraphQL Playground: http://localhost:${port}/graphql`);
-  logger.log(`🐘 PostgreSQL Host: ${process.env.POSTGRES_HOST || 'localhost'}:${process.env.POSTGRES_PORT || 5433}`);
+  logger.log(
+    `🐘 PostgreSQL Host: ${process.env.POSTGRES_HOST || 'localhost'}:${process.env.POSTGRES_PORT || 5433}`,
+  );
   logger.log(`💾 PostgreSQL Database: ${process.env.POSTGRES_DB || 'nestjs_graphql_db'}`);
   logger.log(`===================================================================`);
 }

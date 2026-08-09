@@ -10,6 +10,7 @@
     "prestart": "npm run docker:up",
     "prestart:dev": "npm run docker:up",
     "prestart:debug": "npm run docker:up",
+    "prebuild": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@apollo/server": "^5.0.0",
+    "@as-integrations/express5": "^1.1.0",
     "@nestjs/apollo": "^13.0.0",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.0",
@@ -45,6 +47,11 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.0",
     "@types/pg": "^8.11.10",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"

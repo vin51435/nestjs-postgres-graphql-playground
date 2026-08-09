@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class UserActivityStats {
@@ -90,7 +90,7 @@ export class AnalyticsService {
   async explainQuery(sqlQuery: string): Promise<QueryPlanResult> {
     const explainSql = `EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON) ${sqlQuery}`;
     const result = await this.dataSource.query(explainSql);
-    
+
     return {
       query: sqlQuery,
       executionPlanJson: JSON.stringify(result[0]['QUERY PLAN'], null, 2),

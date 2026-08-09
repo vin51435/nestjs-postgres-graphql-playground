@@ -18,24 +18,20 @@ export class UsersResolver {
     return this.usersService.findOne(id);
   }
 
-  @Mutation(() => User, { description: 'Create a new user with optional nested profile in a database transaction' })
-  async createUser(
-    @Args('input') createUserInput: CreateUserInput,
-  ): Promise<User> {
+  @Mutation(() => User, {
+    description: 'Create a new user with optional nested profile in a database transaction',
+  })
+  async createUser(@Args('input') createUserInput: CreateUserInput): Promise<User> {
     return this.usersService.create(createUserInput);
   }
 
   @Mutation(() => User, { description: 'Update existing user profile' })
-  async updateUser(
-    @Args('input') updateUserInput: UpdateUserInput,
-  ): Promise<User> {
+  async updateUser(@Args('input') updateUserInput: UpdateUserInput): Promise<User> {
     return this.usersService.update(updateUserInput);
   }
 
   @Mutation(() => Boolean, { description: 'Delete a user and cascade delete associated records' })
-  async deleteUser(
-    @Args('id', { type: () => ID }) id: string,
-  ): Promise<boolean> {
+  async deleteUser(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
     return this.usersService.remove(id);
   }
 }
