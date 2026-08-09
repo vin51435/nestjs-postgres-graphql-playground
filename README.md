@@ -67,6 +67,7 @@ Open your browser at **[http://localhost:3000/graphql](http://localhost:3000/gra
 
 ---
 
-## 📖 Comprehensive Guide
+## 📖 Comprehensive Learning Documentation & Workbook
 
-For ready-to-run queries, mutations, subscriptions, and raw SQL examples, view the [GRAPHQL_POSTGRES_GUIDE.md](GRAPHQL_POSTGRES_GUIDE.md).
+For the complete textbook, step-by-step practice modules, N+1 problem benchmarks, raw SQL queries, and indexing exercises, read the **[POSTGRES_GRAPHQL_MASTERY_DOCS.md](POSTGRES_GRAPHQL_MASTERY_DOCS.md)** manual!
+
