@@ -29,11 +29,25 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
         'graphql-ws': true,
         'subscriptions-transport-ws': true,
       },
-      formatError: (error) => {
+      formatError: (error: any) => {
+        const originalError = error.extensions?.originalError as any;
+        let code = error.extensions?.code || 'INTERNAL_SERVER_ERROR';
+
+        if (originalError?.statusCode === 409 || originalError?.error === 'Conflict') {
+          code = 'CONFLICT';
+        } else if (originalError?.statusCode === 400 || originalError?.error === 'Bad Request') {
+          code = 'BAD_REQUEST';
+        } else if (originalError?.statusCode === 404 || originalError?.error === 'Not Found') {
+          code = 'NOT_FOUND';
+        }
+
         return {
           message: error.message,
-          code: error.extensions?.code || 'INTERNAL_SERVER_ERROR',
+          code,
           path: error.path,
+          ...(originalError?.message && Array.isArray(originalError.message)
+            ? { validationErrors: originalError.message }
+            : {}),
         };
       },
     }),
