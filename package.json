@@ -6,6 +6,10 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "docker:up": "docker compose up -d",
+    "prestart": "npm run docker:up",
+    "prestart:dev": "npm run docker:up",
+    "prestart:debug": "npm run docker:up",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
