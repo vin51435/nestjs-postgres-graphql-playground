@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { Client } from 'pg';
 import * as dotenv from 'dotenv';
 import { User, UserRole } from '../../modules/users/entities/user.entity';
 import { Profile } from '../../modules/users/entities/profile.entity';
@@ -9,8 +10,42 @@ import { Comment } from '../../modules/comments/entities/comment.entity';
 
 dotenv.config();
 
+async function ensureDatabaseExists() {
+  const host = process.env.POSTGRES_HOST || 'localhost';
+  const port = parseInt(process.env.POSTGRES_PORT || '5433', 10);
+  const user = process.env.POSTGRES_USER || 'postgres';
+  const password = process.env.POSTGRES_PASSWORD || 'postgres';
+  const targetDb = process.env.POSTGRES_DB || 'nestjs_graphql_db';
+
+  const client = new Client({
+    host,
+    port,
+    user,
+    password,
+    database: 'postgres',
+  });
+
+  try {
+    await client.connect();
+    const res = await client.query(
+      `SELECT 1 FROM pg_database WHERE datname = $1`,
+      [targetDb],
+    );
+    if (res.rowCount === 0) {
+      console.log(`📦 Database '${targetDb}' does not exist. Auto-creating...`);
+      await client.query(`CREATE DATABASE "${targetDb}"`);
+      console.log(`✅ Database '${targetDb}' created successfully!`);
+    }
+  } catch (err) {
+    console.warn(`⚠️ Warning checking database existence: ${err.message}`);
+  } finally {
+    await client.end().catch(() => {});
+  }
+}
+
 async function runSeed() {
   console.log('🚀 Starting Database Seed...');
+  await ensureDatabaseExists();
 
   const dataSource = new DataSource({
     type: 'postgres',
@@ -26,13 +61,10 @@ async function runSeed() {
   await dataSource.initialize();
   console.log('✅ Connected to PostgreSQL for Seeding');
 
-  // Clear existing data
-  await dataSource.getRepository(Comment).delete({});
-  await dataSource.getRepository(Post).delete({});
-  await dataSource.getRepository(Profile).delete({});
-  await dataSource.getRepository(User).delete({});
-  await dataSource.getRepository(Category).delete({});
-  await dataSource.getRepository(Tag).delete({});
+  // Clear existing data using PostgreSQL TRUNCATE CASCADE
+  await dataSource.query(
+    'TRUNCATE TABLE comments, posts_categories, posts_tags, posts, profiles, users, categories, tags RESTART IDENTITY CASCADE;',
+  );
 
   // 1. Create Categories
   const catPg = await dataSource.getRepository(Category).save({
@@ -114,7 +146,7 @@ async function runSeed() {
 
   const post3 = await dataSource.getRepository(Post).save({
     title: 'Building Real-time NestJS Subscriptions with WebSockets',
-    slug: 'building-real-time-nestjs-subscriptions-with-websockets-1003',
+    slug: 'published-real-time-nestjs-subscriptions-with-websockets-1003',
     content:
       'GraphQL Subscriptions enable real-time push notifications over WebSockets. In this post, we set up PubSub in NestJS GraphQL module...',
     published: false,
