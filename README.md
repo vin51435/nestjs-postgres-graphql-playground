@@ -67,7 +67,9 @@ Open your browser at **[http://localhost:3000/graphql](http://localhost:3000/gra
 
 ---
 
-## 📖 Comprehensive Learning Documentation & Workbook
+## 📖 Comprehensive Learning Documentation & Interview Guides
 
-For the complete textbook, step-by-step practice modules, N+1 problem benchmarks, raw SQL queries, and indexing exercises, read the **[POSTGRES_GRAPHQL_MASTERY_DOCS.md](POSTGRES_GRAPHQL_MASTERY_DOCS.md)** manual!
+1. **[POSTGRES_INTERVIEW_MASTERY_GUIDE.md](POSTGRES_INTERVIEW_MASTERY_GUIDE.md)**: Exhaustive interview & system design manual covering Postgres process architecture, 8KB page layout, MVCC, WAL, Isolation Levels, Vacuum bloat, Index types (B-Tree, GIN, BRIN), Partitioning, Replication, PgBouncer, and senior interview Q&A.
+2. **[POSTGRES_GRAPHQL_MASTERY_DOCS.md](POSTGRES_GRAPHQL_MASTERY_DOCS.md)**: Hands-on lab textbook covering GraphQL Code-First paradigm, DataLoader N+1 benchmarks, raw SQL aggregations (`GROUP BY`, `LEFT JOIN`), `EXPLAIN ANALYZE`, and step-by-step practice exercises!
+3. **[GRAPHQL_POSTGRES_GUIDE.md](GRAPHQL_POSTGRES_GUIDE.md)**: Copy-pasteable query and mutation cheat sheet.
 
