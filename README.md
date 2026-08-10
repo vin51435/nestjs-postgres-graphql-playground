@@ -67,9 +67,9 @@ Open your browser at **[http://localhost:3000/graphql](http://localhost:3000/gra
 
 ---
 
-## 📖 Comprehensive Learning Documentation & Interview Guides
+## 📖 Focused Learning Documentation & Interview Guides
 
-1. **[POSTGRES_INTERVIEW_MASTERY_GUIDE.md](POSTGRES_INTERVIEW_MASTERY_GUIDE.md)**: Exhaustive interview & system design manual covering Postgres process architecture, 8KB page layout, MVCC, WAL, Isolation Levels, Vacuum bloat, Index types (B-Tree, GIN, BRIN), Partitioning, Replication, PgBouncer, and senior interview Q&A.
-2. **[POSTGRES_GRAPHQL_MASTERY_DOCS.md](POSTGRES_GRAPHQL_MASTERY_DOCS.md)**: Hands-on lab textbook covering GraphQL Code-First paradigm, DataLoader N+1 benchmarks, raw SQL aggregations (`GROUP BY`, `LEFT JOIN`), `EXPLAIN ANALYZE`, and step-by-step practice exercises!
-3. **[GRAPHQL_POSTGRES_GUIDE.md](GRAPHQL_POSTGRES_GUIDE.md)**: Copy-pasteable query and mutation cheat sheet.
+1. 🐘 **[POSTGRES_INTERVIEW_MASTERY_GUIDE.md](POSTGRES_INTERVIEW_MASTERY_GUIDE.md)**: Master interview & system design guide for PostgreSQL (Process architecture, 8KB pages, MVCC, WAL, Isolation Levels, Vacuum, Indexes, Partitioning, Replication, PgBouncer, Checkpointer, Autovacuum).
+2. 🚀 **[GRAPHQL_INTERVIEW_MASTERY_GUIDE.md](GRAPHQL_INTERVIEW_MASTERY_GUIDE.md)**: Master interview & system design guide for GraphQL (AST lifecycle, DataLoader microtask batching, N+1 problem, Query Complexity & Depth limiting, Federation/Supergraph).
+3. 📝 **[GRAPHQL_POSTGRES_GUIDE.md](GRAPHQL_POSTGRES_GUIDE.md)**: Ready-to-use GraphQL query, mutation, subscription, and raw SQL cheat sheet.
 
